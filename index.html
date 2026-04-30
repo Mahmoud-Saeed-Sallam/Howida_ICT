@@ -280,43 +280,31 @@
         });
 
         // عرض الدروس للطلاب في الصفحة
-        function loadLessons() {
-    const container = document.getElementById('lessons-container');
-    let lessons = JSON.parse(localStorage.getItem('hoda_lessons')) || [];
-    
-    if(lessons.length === 0) {
-        container.innerHTML = "<p style='text-align:center; width:100%; color:#888;'>لا توجد دروس مرفوعة حالياً.</p>";
-        return;
-    }
+       function loadLessons() {
+            const container = document.getElementById('lessons-container');
+            let lessons = JSON.parse(localStorage.getItem('hoda_lessons')) || [];
+            
+            if(lessons.length === 0) {
+                container.innerHTML = "<p style='text-align:center; width:100%; color:#888;'>لا توجد دروس مرفوعة حالياً. سيتم إضافة الدروس قريباً!</p>";
+                return;
+            }
 
-    container.innerHTML = '';
-    lessons.reverse().forEach((lesson, index) => {
-        let hwHTML = lesson.homework ? `<div class="homework-box"><strong>📝 الواجب:</strong><br>${lesson.homework.replace(/\n/g, '<br>')}</div>` : '';
-        let textHTML = lesson.text ? `<p>${lesson.text.replace(/\n/g, '<br>')}</p>` : '';
-        
-        // تحويل رابط الـ Embed لرابط مشاهدة مباشر في حال حدوث خطأ
-        let directUrl = lesson.embedUrl.replace('embed/', 'watch?v=').split('?')[0];
+            container.innerHTML = '';
+            // عرض الدروس من الأحدث للأقدم
+            lessons.reverse().forEach(lesson => {
+                let hwHTML = lesson.homework ? `<div class="homework-box"><strong>📝 الواجب:</strong><br>${lesson.homework.replace(/\n/g, '<br>')}</div>` : '';
+                let textHTML = lesson.text ? `<p>${lesson.text.replace(/\n/g, '<br>')}</p>` : '';
 
-        container.innerHTML += `
-            <div class="lesson-card" style="border-bottom: 2px solid var(--primary-color);">
-                <div class="video-wrapper" style="position:relative;">
-                    <iframe src="${lesson.embedUrl}" allowfullscreen></iframe>
-                </div>
-                <h4>${lesson.title}</h4>
-                ${textHTML}
-                
-                <!-- زر الطوارئ في حال ظهور الخطأ 153 -->
-                <div style="margin: 15px 0;">
-                    <a href="${directUrl}" target="_blank" class="btn" style="background: #ff0000; font-size: 0.85rem; padding: 8px 15px; width: auto;">
-                        ⚠️ إذا ظهر خطأ 153 اضغط هنا للمشاهدة
-                    </a>
-                </div>
-
-                ${hwHTML}
-            </div>
-        `;
-    });
-}
+                container.innerHTML += `
+                    <div class="lesson-card">
+                        <iframe src="${lesson.embedUrl}" allowfullscreen></iframe>
+                        <h4>${lesson.title}</h4>
+                        ${textHTML}
+                        ${hwHTML}
+                    </div>
+                `;
+            });
+        }
 
         // مسح كل الدروس (للأدمن)
         function clearLessons() {
