@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة مس هويدا | Mini Platform</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #00c6ff;
+            --secondary-color: #0072ff;
+            --glass-bg: rgba(16, 25, 43, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { color: #ffffff; background-color: #0a0f1a; overflow-x: hidden; }
+
+        .background-wrapper {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background: url("https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=2070") no-repeat center/cover;
+        }
+        .background-wrapper::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(10, 15, 26, 0.9) 0%, rgba(0, 30, 60, 0.8) 100%);
+        }
+
+        header { padding: 40px 20px; text-align: center; }
+        .header-content {
+            background: var(--glass-bg); padding: 30px; border-radius: 20px;
+            backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
+            max-width: 800px; margin: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        header h1 { font-size: 3rem; background: linear-gradient(to right, #fff, #00c6ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* العداد التنازلي */
+        .countdown-container {
+            display: flex; justify-content: center; gap: 15px; margin-top: 20px; direction: ltr;
+        }
+        .time-box {
+            background: rgba(0, 198, 255, 0.2); border: 1px solid var(--primary-color);
+            padding: 10px 15px; border-radius: 10px; text-align: center; min-width: 80px;
+        }
+        .time-box span { display: block; font-size: 1.8rem; font-weight: bold; }
+        .time-box p { font-size: 0.9rem; color: #b3d4ff; margin: 0; }
+
+        /* كروت 3D Flip */
+        .container {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 40px 20px; perspective: 1000px;
+        }
+        .flip-card {
+            background-color: transparent; width: 280px; height: 220px; perspective: 1000px; cursor: pointer;
+        }
+        .flip-card-inner {
+            position: relative; width: 100%; height: 100%; text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            border-radius: 20px; backdrop-filter: blur(15px); padding: 30px 20px; display: flex; flex-direction: column; justify-content: center;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg); background: linear-gradient(135deg, rgba(0, 198, 255, 0.2), rgba(0, 114, 255, 0.2)); border-color: var(--primary-color);
+        }
+        .icon { font-size: 3rem; margin-bottom: 10px; }
+
+        /* قسم المنصة (الفيديوهات والواجبات) */
+        .platform-section { max-width: 1200px; margin: auto; padding: 20px; }
+        .section-title { text-align: center; font-size: 2rem; margin-bottom: 30px; color: var(--primary-color); }
+        
+        .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        
+        .lesson-card {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 15px; padding: 15px;
+        }
+        .lesson-card iframe { width: 100%; height: 200px; border-radius: 10px; border: none; }
+        .lesson-card h4 { margin: 10px 0; font-size: 1.2rem; color: #fff; }
+        .lesson-card p { color: #b3d4ff; font-size: 0.9rem; }
+        .homework-box {
+            background: rgba(255, 152, 0, 0.15); border-left: 4px solid #ff9800; padding: 10px; margin-top: 10px; border-radius: 5px;
+        }
+
+        /* لوحة تحكم الإدارة المخفية */
+        .admin-trigger {
+            position: fixed; bottom: 20px; left: 20px; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 50%; cursor: pointer; z-index: 100;
+        }
+        .admin-panel {
+            display: none; background: rgba(0, 0, 0, 0.9); position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; padding: 40px; overflow-y: auto;
+        }
+        .admin-box { background: #1a2332; padding: 30px; border-radius: 15px; max-width: 600px; margin: auto; border: 1px solid var(--primary-color); }
+        .admin-box input, .admin-box textarea {
+            width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; background: #0a0f1a; color: white;
+        }
+        .btn {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); padding: 10px 20px;
+            border-radius: 5px; color: white; border: none; cursor: pointer; font-size: 1.1rem; width: 100%;
+        }
+        .close-btn { background: #ff4757; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="background-wrapper"></div>
+
+    <header>
+        <div class="header-content gs-reveal">
+            <h1> Mrs / هويدا عبد القادر</h1>
+            <h2> خبيرة في تكنولوجيا المعلومات (ICT)</h2>
+            <p>منصتك المتكاملة لفهم التكنولوجيا، تعلم البرمجة، والذكاء الاصطناعي بأسلوب تفاعلي ومبسط يواكب العصر.</p>
+<!--             <a href="#courses" class="btn">اكتشف المسارات التعليمية</a>
+ -->
+
+            <!--       <div class="header-content gs-reveal">
+            <h1>م</h1> -->
+            
+            
+        </div>
+            
+            <!-- العداد التنازلي -->
+            <div class="countdown-container">
+                <div class="time-box"><span id="days">00</span><p>يوم</p></div>
+                <div class="time-box"><span id="hours">00</span><p>ساعة</p></div>
+                <div class="time-box"><span id="minutes">00</span><p>دقيقة</p></div>
+                <div class="time-box"><span id="seconds">00</span><p>ثانية</p></div>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.9rem; color: #ff9800;">⏳ يغلق باب الحجز قريباً</p>
+        </div>
+    </header>
+
+    <!-- كروت 3D Flip -->
+    <div class="container gs-reveal">
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <span class="icon">🏫</span>
+                    <h3>منهج ICT</h3>
+                </div>
+                <div class="flip-card-back">
+                    <h3>شرح مبسط</h3>
+                    <p>حل أسئلة كتاب الوزارة وتدريبات تفاعلية لكل المراحل.</p>
+                </div>
+            </div>
+        </div>
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <span class="icon">🐍</span>
+                    <h3>Python & AI</h3>
+                </div>
+                <div class="flip-card-back">
+                    <h3>مستقبل التكنولوجيا</h3>
+                    <p>برمجة بايثون ومفاهيم الذكاء الاصطناعي التطبيقية.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- المنصة: دروس وواجبات الطلاب (تظهر هنا ديناميكياً) -->
+    <div class="platform-section gs-reveal">
+        <h2 class="section-title">📚 الدروس والواجبات الحالية</h2>
+        <div class="content-grid" id="lessons-container">
+            <!-- سيتم إضافة الدروس هنا بواسطة الجافاسكربت -->
+        </div>
+    </div>
+
+    <!-- زر الإدارة -->
+    <div class="admin-trigger" onclick="checkAdmin()">⚙️</div>
+
+    <!-- لوحة تحكم الإدارة (مخفية) -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-box">
+            <h2 style="text-align:center; color: var(--primary-color);">لوحة تحكم المعلمة</h2>
+            <form id="addLessonForm">
+                <label>عنوان الدرس:</label>
+                <input type="text" id="lessonTitle" required placeholder="مثال: الدرس الأول - الشبكات">
+                
+                <label>رابط يوتيوب (العادي):</label>
+                <input type="text" id="youtubeLink" required placeholder="https://www.youtube.com/watch?v=...">
+                
+                <label>نص إضافي / ملاحظات:</label>
+                <textarea id="lessonText" rows="2" placeholder="اكتب ملاحظات للطلاب..."></textarea>
+                
+                <label>الواجب المطلوب:</label>
+                <textarea id="homeworkText" rows="3" placeholder="اكتب أسئلة الواجب هنا..."></textarea>
+                
+                <button type="submit" class="btn">➕ إضافة الدرس للمنصة</button>
+                <button type="button" class="btn close-btn" onclick="document.getElementById('adminPanel').style.display='none'">إغلاق</button>
+                <button type="button" class="btn close-btn" style="background:#333; margin-top:10px;" onclick="clearLessons()">🗑️ مسح كل الدروس</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- GSAP Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        gsap.from(".gs-reveal", { duration: 1, y: 50, opacity: 0, stagger: 0.2, ease: "power3.out" });
+
+        /* ======== 1. برمجة العداد التنازلي ======== */
+        // حدد موعد انتهاء الحجز (مثلاً بعد 3 أيام من الآن)
+        let countDownDate = new Date().getTime() + (3 * 24 * 60 * 60 * 1000); 
+
+        let x = setInterval(function() {
+            let now = new Date().getTime();
+            let distance = countDownDate - now;
+
+            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerHTML = days < 10 ? '0'+days : days;
+            document.getElementById("hours").innerHTML = hours < 10 ? '0'+hours : hours;
+            document.getElementById("minutes").innerHTML = minutes < 10 ? '0'+minutes : minutes;
+            document.getElementById("seconds").innerHTML = seconds < 10 ? '0'+seconds : seconds;
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.querySelector(".countdown-container").innerHTML = "<h3 style='color:red;'>تم إغلاق باب الحجز!</h3>";
+            }
+        }, 1000);
+
+        /* ======== 2. برمجة لوحة الإدارة والمنصة المصغرة ======== */
+        
+        // التحقق من الباسورد لفتح لوحة التحكم
+        function checkAdmin() {
+            let pass = prompt("الرجاء إدخال كلمة مرور الإدارة:");
+            if(pass === "121212") {
+                document.getElementById("adminPanel").style.display = "block";
+            } else if(pass !== null) {
+                alert("كلمة المرور خاطئة!");
+            }
+        }
+
+        // استخراج كود الفيديو من رابط يوتيوب لتحويله لـ Embed
+       function getYouTubeEmbedUrl(url) {
+    let videoId = '';
+    // استخراج المعرف سواء كان الرابط عادي أو مختصر
+    if(url.includes('v=')) {
+        videoId = url.split('v=')[1].split('&')[0];
+    } else if(url.includes('youtu.be/')) {
+        videoId = url.split('youtu.be/')[1].split('?')[0];
+    } else if(url.includes('embed/')) {
+        videoId = url.split('embed/')[1].split('?')[0];
+    }
+    
+    // إضافة origin لمنع مشاكل الأمان و autoplay لمنع التوقف
+    if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}?rel=0&enablejsapi=1`;
+    }
+    return '';
+}
+
+        // حفظ الدرس الجديد
+        document.getElementById('addLessonForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('lessonTitle').value;
+            const ytLink = document.getElementById('youtubeLink').value;
+            const text = document.getElementById('lessonText').value;
+            const homework = document.getElementById('homeworkText').value;
+            
+            const embedUrl = getYouTubeEmbedUrl(ytLink);
+            if(!embedUrl) { alert("رابط يوتيوب غير صحيح!"); return; }
+
+            const newLesson = { title, embedUrl, text, homework };
+
+            // جلب الدروس القديمة من المتصفح وإضافة الجديد
+            let lessons = JSON.parse(localStorage.getItem('hoda_lessons')) || [];
+            lessons.push(newLesson);
+            localStorage.setItem('hoda_lessons', JSON.stringify(lessons));
+
+            alert("تم إضافة الدرس بنجاح للطلاب!");
+            document.getElementById('addLessonForm').reset();
+            document.getElementById("adminPanel").style.display = "none";
+            loadLessons(); // تحديث العرض
+        });
+
+        // عرض الدروس للطلاب في الصفحة
+        function loadLessons() {
+    const container = document.getElementById('lessons-container');
+    let lessons = JSON.parse(localStorage.getItem('hoda_lessons')) || [];
+    
+    if(lessons.length === 0) {
+        container.innerHTML = "<p style='text-align:center; width:100%; color:#888;'>لا توجد دروس مرفوعة حالياً.</p>";
+        return;
+    }
+
+    container.innerHTML = '';
+    lessons.reverse().forEach((lesson, index) => {
+        let hwHTML = lesson.homework ? `<div class="homework-box"><strong>📝 الواجب:</strong><br>${lesson.homework.replace(/\n/g, '<br>')}</div>` : '';
+        let textHTML = lesson.text ? `<p>${lesson.text.replace(/\n/g, '<br>')}</p>` : '';
+        
+        // تحويل رابط الـ Embed لرابط مشاهدة مباشر في حال حدوث خطأ
+        let directUrl = lesson.embedUrl.replace('embed/', 'watch?v=').split('?')[0];
+
+        container.innerHTML += `
+            <div class="lesson-card" style="border-bottom: 2px solid var(--primary-color);">
+                <div class="video-wrapper" style="position:relative;">
+                    <iframe src="${lesson.embedUrl}" allowfullscreen></iframe>
+                </div>
+                <h4>${lesson.title}</h4>
+                ${textHTML}
+                
+                <!-- زر الطوارئ في حال ظهور الخطأ 153 -->
+                <div style="margin: 15px 0;">
+                    <a href="${directUrl}" target="_blank" class="btn" style="background: #ff0000; font-size: 0.85rem; padding: 8px 15px; width: auto;">
+                        ⚠️ إذا ظهر خطأ 153 اضغط هنا للمشاهدة
+                    </a>
+                </div>
+
+                ${hwHTML}
+            </div>
+        `;
+    });
+}
+
+        // مسح كل الدروس (للأدمن)
+        function clearLessons() {
+            if(confirm("هل أنت متأكد من مسح جميع الدروس والواجبات؟")) {
+                localStorage.removeItem('hoda_lessons');
+                loadLessons();
+                document.getElementById("adminPanel").style.display = "none";
+            }
+        }
+
+        // تحميل الدروس عند فتح الصفحة
+        window.onload = loadLessons;
+
+    </script>
+</body>
+</html>
