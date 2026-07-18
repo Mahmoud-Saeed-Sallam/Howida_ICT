@@ -1,0 +1,196 @@
+{
+  "meta": {
+    "phone": "01020281736",
+    "email": "mssallam3@gmail.com",
+    "address": "مدينة حدائق السادس من اكتوبر - مصر",
+    "social": {
+      "facebook": "#",
+      "linkedin": "#",
+      "github": "https://mahmoud-saeed-sallam.github.io/hero/",
+      "Website": "https://mahmoud-saeed-sallam.github.io/hero/"
+    }
+  },
+  "hero": {
+    "title": "نبني حلولاً رقمية تصنع المستقبل",
+    "typedWords": [
+      "تطوير المواقع",
+      "تطبيقات الجوال",
+      "الذكاء الاصطناعي",
+      "أنظمة ERP",
+      "أنظمة المدارس",
+      "الحلول البرمجية"
+    ]
+  },
+  "about": [
+    {
+      "icon": "fa-eye",
+      "title": "رؤيتنا",
+      "desc": "الريادة في تقديم حلول برمجية مبتكرة تنافس عالمياً."
+    },
+    {
+      "icon": "fa-bullseye",
+      "title": "رسالتنا",
+      "desc": "تمكين الشركات والمؤسسات من التحول الرقمي بأحدث التقنيات."
+    },
+    {
+      "icon": "fa-gem",
+      "title": "قيمنا",
+      "desc": "الجودة، الابتكار، الشفافية، ورضا العملاء."
+    }
+  ],
+  "services": [
+    {
+      "icon": "fa-laptop-code",
+      "title": "تطوير مواقع الويب",
+      "desc": "تصميم وبرمجة مواقع سريعة ومتجاوبة."
+    },
+    {
+      "icon": "fa-mobile-screen",
+      "title": "تطبيقات الجوال",
+      "desc": "تطبيقات Android و iOS بأداء عالٍ."
+    },
+    {
+      "icon": "fa-server",
+      "title": "أنظمة ERP",
+      "desc": "إدارة موارد المؤسسات باحترافية."
+    },
+    {
+      "icon": "fa-school",
+      "title": "أنظمة المدارس",
+      "desc": "إدارة تعليمية متكاملة لمدارس المستقبل."
+    },
+    {
+      "icon": "fa-robot",
+      "title": "الذكاء الاصطناعي",
+      "desc": "دمج الذكاء الاصطناعي لتحليل البيانات."
+    },
+    {
+      "icon": "fa-shield-halved",
+      "title": "Cyber Security",
+      "desc": "حماية الأنظمة والبيانات من الاختراقات."
+    }
+  ],
+  "stats": [
+    {
+      "id": "stat-1",
+      "number": 100,
+      "suffix": "+",
+      "label": "مشروع مكتمل"
+    },
+    {
+      "id": "stat-2",
+      "number": 50,
+      "suffix": "+",
+      "label": "عميل سعيد"
+    },
+    {
+      "id": "stat-3",
+      "number": 10,
+      "suffix": "+",
+      "label": "سنوات خبرة"
+    },
+    {
+      "id": "stat-4",
+      "number": 95,
+      "suffix": "%",
+      "label": "رضا العملاء"
+    }
+  ],
+  "timeline": [
+    {
+      "step": "١",
+      "title": "تحليل",
+      "desc": "دراسة متطلبات المشروع بدقة."
+    },
+    {
+      "step": "٢",
+      "title": "تصميم",
+      "desc": "تصميم واجهات المستخدم (UI/UX)."
+    },
+    {
+      "step": "٣",
+      "title": "برمجة",
+      "desc": "كتابة كود نظيف وقابل للتطوير."
+    },
+    {
+      "step": "٤",
+      "title": "اختبار",
+      "desc": "ضمان الجودة وخلو النظام من الأخطاء."
+    },
+    {
+      "step": "٥",
+      "title": "إطلاق",
+      "desc": "نشر المشروع على السيرفرات."
+    },
+    {
+      "step": "٦",
+      "title": "دعم فني",
+      "desc": "متابعة وصيانة مستمرة."
+    }
+  ],
+  "portfolio": [
+    {
+      "img": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=500&q=80",
+      "title": "School Admin System",
+      "category": "School System",
+      "tech": [
+        "PHP",
+        "MySQL",
+        "Bootstrap"
+      ]
+    },
+    {
+      "img": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80",
+      "title": "مستشاري الطبي",
+      "category": "Medical System",
+      "tech": [
+        "Flutter",
+        "Node.js"
+      ]
+    },
+    {
+      "img": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=500&q=80",
+      "title": "نظام نقاط البيع POS",
+      "category": "POS",
+      "tech": [
+        "React",
+        "Firebase"
+      ]
+    }
+  ],
+  "techIcons": [
+    "fa-brands fa-php",
+    "fa-brands fa-laravel",
+    "fa-brands fa-node",
+    "fa-brands fa-python",
+    "fa-brands fa-react",
+    "fa-brands fa-bootstrap",
+    "fa-brands fa-github",
+    "fa-brands fa-docker",
+    "fa-solid fa-database"
+  ],
+  "faq": [
+    {
+      "q": "ما هي تكلفة إنشاء موقع إلكتروني؟",
+      "a": "تختلف التكلفة حسب المتطلبات والميزات المطلوبة. تواصل معنا لعرض سعر دقيق."
+    },
+    {
+      "q": "هل تقدمون خدمات الدعم الفني؟",
+      "a": "نعم، نقدم دعماً فنياً متكاملاً بعد تسليم المشروع لضمان استقرار النظام."
+    },
+    {
+      "q": "كم يستغرق تطوير تطبيق جوال؟",
+      "a": "يعتمد على حجم التطبيق، عادة من شهر إلى 3 أشهر للتطبيقات المتوسطة."
+    }
+  ],
+  "testimonials": [
+    {
+      "text": "أفضل شركة تعاملت معها في تصميم نظام إدارة المدرسة الخاص بنا.",
+      "author": "مدير مدارس الخليل لغات"
+    },
+    {
+      "text": "احترافية عالية وتسليم في الموعد المحدد. أنصح بالتعامل معهم بشدة.",
+      "author": "مؤسس شركة ناشئة"
+    }
+  ]
+}
